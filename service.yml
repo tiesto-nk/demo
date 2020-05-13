@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: demo-app # < --- Вот тут мы говорим сервису искать контейнеры с такими метаданнами(тэгами)
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
