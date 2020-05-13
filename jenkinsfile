@@ -13,8 +13,9 @@ agent any
       steps {
         container('kubectl') {
           // Create namespace if it doesn't exist
+          sh("export KUBECONFIG=/var/lib/jenkins/test.kubeconfig")
           sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
-          sh("kubectl apply -n ${env.BRANCH_NAME} -f k8s/demo")
+          sh("kubectl apply -n ${env.BRANCH_NAME} -f deployment.yml")
           echo 'Done!'
         }
       }
