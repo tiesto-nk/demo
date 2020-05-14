@@ -199,7 +199,7 @@ pipeline {
 ```
 https://github.com/tiesto-nk/demo
 ```
-![Создаем Multibranch pipeline](https://ibb.co/VSxcjmr)
+![Создаем Multibranch pipeline](https://i.ibb.co/C76312N/1.png)
 
 
 ###  Завершение работы
