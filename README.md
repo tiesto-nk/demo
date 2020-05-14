@@ -297,7 +297,7 @@ Done!
 Finished: SUCCESS
 ```
 
-* Поднятые контейнеры
+* Поднятые контейнеры demo-service(открывает доступ в интернет за счет типа LoadBalancer) и demo-app(В нем развертывается приложение)
 
 ![5](https://i.ibb.co/ZNztt7P/5.png)
 
