@@ -1,6 +1,10 @@
 # Работа с Managed Kubernetes и Container Registry
 
 ### Подготовка окружения
+* Установить Jenkins https://www.digitalocean.com/community/tutorials/how-to-install-jenkins-on-ubuntu-18-04-ru
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 9B7D32F2D50582E6
+```
 * Зайдите в консоль облака https://console.cloud.yandex.ru и создайте себе каталог (folder) - создавать сеть по умолчанию там не требуется.
 * Установить Yandex CLI в рабочую папку Jenkins
 * В терминале рабочей станции инициируйте `yc init`.
