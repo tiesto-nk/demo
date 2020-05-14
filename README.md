@@ -199,40 +199,108 @@ pipeline {
 ```
 https://github.com/tiesto-nk/demo
 ```
-![Создаем Multibranch pipeline](https://i.ibb.co/C76312N/1.png)
 
+###  Создание pipeline
 
-###  Завершение работы
+* Создаем Multibranch pipeline
+![Создаем Multibranch pipeline](https://i.ibb.co/jwztC8H/11.png)
 
-Удалите кластер (занимает около 1 минуты)
-```
-yc managed-kubernetes cluster delete --name k8s-demo
-```
+* Указываем в строке Branch source
+![Branch source](https://i.ibb.co/NTMG7pQ/1.png)
 
-Удалите сервисный аккаунт
-**Внимание: не удаляйте сервисный аккаунт до удаления кластера!**
-```
-yc iam service-account delete --id $SA_ID
-```
+* Указываем Jenkinsfile
+![Jenkinsfile](https://i.ibb.co/WxZV3FX/2.png)
 
-Удалите Container Registry
-```
-IMAGE_ID=$(yc container image list   --format json | jq .[0].id -r)
-yc container image delete --id $IMAGE_ID
-yc container registry delete --name yc-auto-cr
+* Созраняем проект
+После сохранения Jenkins сразу начнет сканировать репозиторий и начнет выполнять pipeline описаный Jenkinsfile
 
-```
+![3](https://i.ibb.co/tmrCd6W/3.png)
 
-Удалите подсети и сеть
-```
-zones=(a b c)
+![4](https://i.ibb.co/8gkN2q5/4.png)
 
-for i in ${!zones[@]}; do
-  echo "Deleting subnet yc-auto-subnet-$i"
-  yc vpc subnet delete --name yc-auto-subnet-$i
-done
-
-echo "Deleting network yc-auto-network"
-yc vpc network delete --name yc-auto-network
+* Logs:
 
 ```
+Branch indexing
+09:54:37 Connecting to https://api.github.com with no credentials, anonymous access
+09:54:37 GitHub API Usage: Current quota has 53 remaining (1 under budget). Next quota of 60 in 58 min
+Obtained Jenkinsfile from 9be1eb16cca04f0f162ccef5e982bc057a7ce539
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/11_master
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+No credentials specified
+Cloning the remote Git repository
+Cloning with configured refspecs honoured and without tags
+Cloning repository https://github.com/tiesto-nk/demo.git
+ > git init /var/lib/jenkins/workspace/11_master # timeout=10
+Fetching upstream changes from https://github.com/tiesto-nk/demo.git
+ > git --version # timeout=10
+ > git fetch --no-tags --progress -- https://github.com/tiesto-nk/demo.git +refs/heads/master:refs/remotes/origin/master # timeout=10
+ > git config remote.origin.url https://github.com/tiesto-nk/demo.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master # timeout=10
+ > git config remote.origin.url https://github.com/tiesto-nk/demo.git # timeout=10
+Fetching without tags
+Fetching upstream changes from https://github.com/tiesto-nk/demo.git
+ > git fetch --no-tags --progress -- https://github.com/tiesto-nk/demo.git +refs/heads/master:refs/remotes/origin/master # timeout=10
+Checking out Revision 9be1eb16cca04f0f162ccef5e982bc057a7ce539 (master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 9be1eb16cca04f0f162ccef5e982bc057a7ce539 # timeout=10
+Commit message: "Update README.md"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Deploy demo)
+[Pipeline] sh
++ export KUBECONFIG=/var/lib/jenkins/test.kubeconfig
+[Pipeline] sh
++ /var/lib/jenkins/yandex-cloud/bin/yc container registry configure-docker
+Credential helper is configured in '/var/lib/jenkins/.docker/config.json'
+[Pipeline] sh
++ /var/lib/jenkins/yandex-cloud/bin/yc managed-kubernetes cluster get-credentials --external --name k8s-demo --force
+
+Context 'yc-k8s-demo' was added as default to kubeconfig '/var/lib/jenkins/.kube/config'.
+Check connection to cluster using 'kubectl cluster-info --kubeconfig /var/lib/jenkins/.kube/config'.
+
+Note, that authentication depends on 'yc' and its config profile 'default'.
+To access clusters using the Kubernetes API, please use Kubernetes Service Account.
+[Pipeline] sh
++ /var/lib/jenkins/kubectl get ns master
+NAME     STATUS   AGE
+master   Active   69m
+[Pipeline] sh
++ /var/lib/jenkins/kubectl apply -n master -f /var/lib/jenkins/deployment.yml
+deployment.apps/demo-app unchanged
+[Pipeline] sh
++ /var/lib/jenkins/kubectl apply -n master -f /var/lib/jenkins/service.yml
+service/demo-service unchanged
+[Pipeline] echo
+Done!
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+```
+
+* Поднятые контейнеры
+
+![5](https://i.ibb.co/ZNztt7P/5.png)
+
+
+### Ссылка на приложение : http://130.193.49.227/
+
