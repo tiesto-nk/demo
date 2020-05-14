@@ -17,10 +17,9 @@ agent any
           sh("export KUBECONFIG=/var/lib/jenkins/test.kubeconfig")
           sh("/var/lib/jenkins/yandex-cloud/bin/yc container registry configure-docker")
           sh("/var/lib/jenkins/yandex-cloud/bin/yc managed-kubernetes cluster get-credentials --external --name k8s-demo --force")
-          sh("/var/lib/jenkins/kubectl get ns deployment || kubectl create ns deployment")
-          sh("/var/lib/jenkins/kubectl apply -n deployment -f /var/lib/jenkins/deployment.yml")
-          sh("/var/lib/jenkins/kubectl get ns service || kubectl create ns service)
-          sh("/var/lib/jenkins/kubectl apply -n service -f /var/lib/jenkins/service.yml")
+          sh("/var/lib/jenkins/kubectl get ns master || kubectl create ns master")
+          sh("/var/lib/jenkins/kubectl apply -n master -f /var/lib/jenkins/deployment.yml")
+          sh("/var/lib/jenkins/kubectl apply -n master -f /var/lib/jenkins/service.yml")
           echo 'Done!'
           }
         }
