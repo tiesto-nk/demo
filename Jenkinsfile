@@ -4,7 +4,11 @@ pipeline {
     PROJECT = "demo"
   }
   agent any
+  
+  
   stages {
+    stage('Deploy demo') {
+      // Developer Branches
       steps {
           withKubeConfig([credentialsId: '78a7be91-5339-4a89-88d4-515257366539']){
           // Create namespace if it doesn't exist
@@ -18,4 +22,5 @@ pipeline {
           }
         }
     }
+  }
 }
