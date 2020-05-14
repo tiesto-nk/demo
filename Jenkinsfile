@@ -3,13 +3,8 @@ pipeline {
   environment {
     PROJECT = "demo"
   }
-
-agent any
-  }
+  agent any
   stages {
-    stage('Deploy demo') {
-      
-      }
       steps {
         {
           withKubeConfig([credentialsId: '78a7be91-5339-4a89-88d4-515257366539']){
@@ -25,5 +20,4 @@ agent any
         }
       }
     }
-  }
 }
