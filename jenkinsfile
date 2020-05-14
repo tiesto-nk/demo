@@ -12,7 +12,7 @@ agent any
       }
       steps {
         {
-          withKubeConfig([credentialsId: '	78a7be91-5339-4a89-88d4-515257366539'])
+          withKubeConfig([credentialsId: '78a7be91-5339-4a89-88d4-515257366539'])
           // Create namespace if it doesn't exist
           sh("export KUBECONFIG=/var/lib/jenkins/test.kubeconfig")
           sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
