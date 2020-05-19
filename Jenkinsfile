@@ -13,8 +13,8 @@ pipeline {
 
           // Create namespace if it doesn't exist
           sh("/kubectl get ns master || kubectl create ns master")
-          sh("/var/lib/jenkins/kubectl apply -n master -f /var/lib/jenkins/deployment.yml")
-          sh("/var/lib/jenkins/kubectl apply -n master -f /var/lib/jenkins/service.yml")
+          sh("kubectl apply -n master -f /var/lib/jenkins/deployment.yml")
+          sh("kubectl apply -n master -f /var/lib/jenkins/service.yml")
           echo 'Done!'
           
         }
